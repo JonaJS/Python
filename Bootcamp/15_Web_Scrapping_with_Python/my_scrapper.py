@@ -51,15 +51,12 @@ soup.select('div span')                 Any elements named span within a div ele
 soup.select('div > span')               Any elements named span DIRECTLY within a div element, with nothing in between.
 '''
 
-
-
 # Grabbing an image.
 res_wiki = requests.get("https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)")
 soup_wiki = bs4.BeautifulSoup(res_wiki.text, "lxml")
 images_wiki = soup_wiki.select(".thumbimage")[0]
 kasparov_picture = images_wiki['src']
 print(kasparov_picture)
-
 
 # Download the image
 download_image = requests.get(f"https:{kasparov_picture}")
@@ -68,3 +65,4 @@ print(download_image.content) # See the raw content of the actual image. This is
 f = open("my_computer_image.png", 'wb')
 f.write(download_image.content)
 f.close()
+
