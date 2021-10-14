@@ -1,0 +1,6 @@
+[x] Import libraries
+[x] Use requests library and BeautifulSoup library to connect to http://quotes.toscrape.com/ and get the HTML text from the homepage.
+[x] Get the names of all authors on the first page.
+[x] Create a list of all the quoutes on the first page.
+[x] Inspect the site and use BeautifulSoup to extract the top ten tags from the requests text shown on the top right from the home page.
+[] 
