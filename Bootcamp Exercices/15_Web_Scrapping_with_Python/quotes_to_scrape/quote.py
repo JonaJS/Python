@@ -14,10 +14,14 @@ class Quote:
 
     
     def get_authors_main_page(self):
+        authors_list = set()
         soup = self.get_main_page_scrapped()
         raw_authors_list = soup.select(".author")
-        enhaced_authors_list = [author.text for author in raw_authors_list]
-        return enhaced_authors_list
+
+        for author in raw_authors_list:
+            authors_list.add(author.text)
+        
+        return authors_list
 
 
     def get_main_page_quotes(self):
@@ -35,26 +39,22 @@ class Quote:
 
     
     def get_all_authors(self):
+        page_still_valid = True
+        authors_list = set()
         page_number = 1
-        author_list = []
-        
-        while True:
-            new_url = f"{self.url}page/{page_number}/"
 
-            res = requests.get(new_url)
-            soup = bs4.BeautifulSoup(res.text, 'lxml')
-            raw_authors_list = soup.select(".author")
-        
-            for author in raw_authors_list:
-                if author.text not in author_list:
-                    author_list.append(author.text)
-
-            if soup.select(".next"):
-                page_number += 1
-            else:
+        while page_still_valid:
+            page_url = f"{self.url}page/{page_number}"
+            res = requests.get(page_url)
+            
+            if "No quotes found!" in res.text:
                 break
+            else:
+                soup = bs4.BeautifulSoup(res.text, 'lxml')
 
-        return author_list
-
-
-
+                for author in soup.select(".author"):
+                    authors_list.add(author.text)
+                    
+            page_number += 1
+        
+        return authors_list
